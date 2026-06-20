@@ -24,6 +24,14 @@ Two hooks that run at the right moments:
 
 ## Quick Start
 
+**One-liner (no clone needed):**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/nadimtuhin/claude-code-self-critic/main/install.sh | bash
+```
+
+**Or clone and run:**
+
 ```bash
 git clone https://github.com/nadimtuhin/claude-code-self-critic
 cd claude-code-self-critic
