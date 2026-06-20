@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { rmSync } from 'node:fs'
-import { loadState, saveState } from './state.mjs'
+import { loadState, saveState } from '../src/state.mjs'
 
 const dir = join(tmpdir(), 'sc-state-test')
 

@@ -11,19 +11,19 @@ Two Claude Code hooks that provide real-time self-critique and stuck-detection d
 ## Architecture
 
 Pure cores (no I/O, 100% testable):
-- **`fact-gate.mjs`** — Extracts evidence from turns, applies rule-based gates (test claims, vague completions, etc.)
-- **`critic-core.mjs`** — Fact-gate decision logic + episode tracking
-- **`stuck-core.mjs`** — Failure window tracking, repeat detection, escalation logic
+- **`src/fact-gate.mjs`** — Extracts evidence from turns, applies rule-based gates (test claims, vague completions, etc.)
+- **`src/critic-core.mjs`** — Fact-gate decision logic + episode tracking
+- **`src/stuck-core.mjs`** — Failure window tracking, repeat detection, escalation logic
 
 I/O edge modules:
-- **`evidence.mjs`** — Test-run detection, command parsing, file reads for test-validity checks (reads filesystem)
-- **`state.mjs`** — File-based state persistence (JSON, reads/writes filesystem)
+- **`src/evidence.mjs`** — Test-run detection, command parsing, file reads for test-validity checks (reads filesystem)
+- **`src/state.mjs`** — File-based state persistence (JSON, reads/writes filesystem)
 
 Thin wiring (hooks):
-- **`stop-hook.mjs`** — Stop hook entry point; reads last assistant message, runs critique, writes state
-- **`pretool-hook.mjs`** — PreToolUse hook entry point; detects repeats, nudges if needed
+- **`src/stop-hook.mjs`** — Stop hook entry point; reads last assistant message, runs critique, writes state
+- **`src/pretool-hook.mjs`** — PreToolUse hook entry point; detects repeats, nudges if needed
 
-All unit tests (`*.test.mjs`) run with zero dependencies: `node --test`.
+Tests live in `test/`; fixtures live in `test/fixtures/`. All unit tests run with zero dependencies: `node --test`.
 
 ## Key Validated Facts
 
@@ -39,7 +39,7 @@ All unit tests (`*.test.mjs`) run with zero dependencies: `node --test`.
 bash deploy.sh
 ```
 
-This copies all `.mjs` files to `~/.claude/hooks/self-critic/` and prints the settings.json snippet.
+This copies runtime `.mjs` files from `src/` to `~/.claude/hooks/self-critic/` and prints the settings.json snippet.
 
 Merge the printed snippet into `~/.claude/settings.json` manually. Use the absolute `$HOME` path in hook commands (Claude Code does not expand `~`):
 

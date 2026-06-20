@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
-SRC="$(cd "$(dirname "$0")" && pwd)"
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+SRC="$ROOT/src"
 DEST="$HOME/.claude/hooks/self-critic"
 mkdir -p "$DEST"
-find "$SRC" -maxdepth 1 -name '*.mjs' ! -name '*.test.mjs' -exec cp {} "$DEST"/ \;
+find "$SRC" -maxdepth 1 -name '*.mjs' -exec cp {} "$DEST"/ \;
 # prune stale per-session state (older than 14 days)
 mkdir -p "$DEST/state"
 find "$DEST/state" -maxdepth 1 -name '*.json' -type f -mtime +14 -delete 2>/dev/null || true

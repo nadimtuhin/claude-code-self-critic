@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { detectRepeatedCall, REPEAT_NUDGES, normalizeBashTarget } from './stuck-core.mjs'
+import { detectRepeatedCall, REPEAT_NUDGES, normalizeBashTarget } from '../src/stuck-core.mjs'
 
 // detectRepeatedCall tests
 const call = (target) => ({ tool: 'Bash', target })

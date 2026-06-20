@@ -52,12 +52,14 @@ export function extractEvidence(transcriptPath) {
   const entries = parseEntries(transcriptPath)
   if (!entries) return emptyEvidence()
 
-  // Find last real user-prompt to scope to current turn.
-  // If none is found (sub-agent/resume transcript opening on tool context),
-  // default to scanning NOTHING — never let a prior-turn run back a current claim.
   let start = entries.length
   for (let i = entries.length - 1; i >= 0; i--) {
     if (isUserPrompt(entries[i])) { start = i; break }
+  }
+  if (start === entries.length) {
+    for (let i = entries.length - 1; i >= 0; i--) {
+      if (entries[i]?.type === 'user') { start = i; break }
+    }
   }
 
   // First pass: collect test tool_use ids and all tool_results

@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { decideCritique, episodeAfterVeto, MIN_CRITIQUE_CHARS, MAX_ROUNDS } from './critic-core.mjs'
+import { decideCritique, episodeAfterVeto, MIN_CRITIQUE_CHARS, MAX_ROUNDS } from '../src/critic-core.mjs'
 
 const clean = { claims: [], unbacked: [] }
 const tripped = { claims: [{ id: 'tests-pass' }], unbacked: [{ id: 'tests-pass' }] }

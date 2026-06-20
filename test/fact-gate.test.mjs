@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { scanTurn, explainUnbacked } from './fact-gate.mjs'
+import { scanTurn, explainUnbacked } from '../src/fact-gate.mjs'
 
 const noEvidence = { ranTests: false, testCommands: [], readFiles: [], editedFiles: [] }
 const withTests = { ranTests: true, testCommands: ['yarn test'], readFiles: [], editedFiles: [] }
