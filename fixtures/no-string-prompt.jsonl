@@ -1,0 +1,2 @@
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","id":"toolu_NOSTART","name":"Bash","input":{"command":"node --test a.test.mjs","description":"run tests"}}]}}
+{"type":"user","message":{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_NOSTART","content":"ℹ tests 1\nℹ pass 1\nℹ fail 0","is_error":false}]}}

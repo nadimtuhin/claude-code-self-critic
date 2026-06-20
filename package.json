@@ -1,0 +1,27 @@
+{
+  "name": "claude-code-self-critic",
+  "version": "1.0.0",
+  "description": "Two Claude Code hooks: a Stop-hook self-critic (deterministic fact-gating + Haiku veto) and a PreToolUse stuck-detector. Zero dependencies.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Nadim Tuhin",
+  "homepage": "https://github.com/nadimtuhin/claude-code-self-critic",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nadimtuhin/claude-code-self-critic.git"
+  },
+  "keywords": [
+    "claude-code",
+    "claude",
+    "hooks",
+    "self-critique",
+    "agent",
+    "llm"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
