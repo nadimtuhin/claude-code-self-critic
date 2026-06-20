@@ -7,6 +7,9 @@
 #   ./install.sh --uninstall  # remove hooks
 #   ./install.sh --test-only  # run tests in /tmp without installing
 #
+# Remote one-liner (no clone needed):
+#   curl -fsSL https://raw.githubusercontent.com/nadimtuhin/claude-code-self-critic/main/install.sh | bash
+#
 # Workflow (TDD red-green gate):
 #   1. Clone current repo state into a /tmp sandbox
 #   2. Run the full test suite there
@@ -18,7 +21,8 @@
 #
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")" && pwd)"
+REPO_URL="https://github.com/nadimtuhin/claude-code-self-critic.git"
+ROOT="$(cd "$(dirname "$0")" 2>/dev/null && pwd)"
 SRC="$ROOT/src"
 DEST="$HOME/.claude/hooks/self-critic"
 SETTINGS="$HOME/.claude/settings.json"
@@ -38,6 +42,21 @@ c_yellow() { echo -e "${YELLOW}$*${NC}"; }
 c_bold()   { echo -e "${BOLD}$*${NC}"; }
 
 # ── helpers ──────────────────────────────────────────────────────────
+
+# If piped (no repo around us), clone to temp and re-point ROOT.
+ensure_repo() {
+  if [ -d "$SRC" ]; then
+    return  # local mode — already in repo
+  fi
+  command -v git >/dev/null 2>&1 || die "git is required for remote install."
+  local tmp_dir
+  tmp_dir=$(mktemp -d "/tmp/self-critic-install-XXXXXX")
+  echo "Cloning repo..."
+  git clone --depth 1 "$REPO_URL" "$tmp_dir" >/dev/null 2>&1
+  ROOT="$tmp_dir"
+  SRC="$ROOT/src"
+  trap 'rm -rf "$tmp_dir"' EXIT
+}
 
 die() { c_red "error: $*"; echo; exit 1; }
 
@@ -216,6 +235,7 @@ main() {
       c_green "Self-critic hooks uninstalled."
       ;;
     --test-only|-t)
+      ensure_repo
       run_tests_in_tmp
       c_green "All tests passed."
       ;;
@@ -229,12 +249,16 @@ Usage:
   ./install.sh --uninstall  Remove hooks and hook directory
   ./install.sh --help       Show this help
 
+Remote (no clone needed):
+  curl -fsSL https://raw.githubusercontent.com/nadimtuhin/claude-code-self-critic/main/install.sh | bash
+
 Tests run in an isolated /tmp sandbox before any files are deployed.
 If tests fail (RED), installation is aborted. If tests pass (GREEN),
 hooks are deployed and settings.json is merged.
 USAGE
       ;;
     ""|install)
+      ensure_repo
       c_bold "self-critic installer"
       echo
       run_tests_in_tmp
