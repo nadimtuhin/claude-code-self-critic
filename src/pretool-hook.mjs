@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { detectRepeatedCall, normalizeBashTarget } from './stuck-core.mjs'
-import { TEST_CMD_RE } from './fact-gate.mjs'
+import { TEST_CMD_RE } from './evidence.mjs'
 import { loadState, saveState } from './state.mjs'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
