@@ -11,7 +11,7 @@ import { loadState, saveState } from './state.mjs'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const STATE_DIR = join(HERE, 'state')
-const CLI = process.env.CLAUDE_CLI || '/Users/nadimtuhin/.local/bin/claude'
+const CLI = process.env.CLAUDE_CLI || 'claude'
 const MODEL = 'haiku'
 const TIMEOUT_MS = 60000
 
