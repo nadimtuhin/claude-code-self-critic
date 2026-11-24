@@ -24,7 +24,9 @@ export function detectRepeatedCall(event, state) {
   if (event.isTestRun) {
     return { nudge: null, level: 0, nextState: state || { window: [], level: 0 } }
   }
-  const prev = state || { window: [], level: 0 }
+  const prev = state && Array.isArray(state.window)
+    ? { window: state.window, level: Number(state.level) || 0 }
+    : { window: [], level: 0 }
   const window = [...prev.window, event.target].slice(-WINDOW_MAX)
   const repeats = window.filter((t) => t === event.target).length
   if (repeats < STUCK_THRESHOLD) {

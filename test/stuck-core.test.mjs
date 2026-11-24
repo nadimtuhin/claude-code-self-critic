@@ -72,3 +72,8 @@ test('detectRepeatedCall: non-test Bash repeat still triggers nudge', () => {
   }
   assert.equal(last.level, 1, 'non-test repeat should still nudge')
 })
+
+test('repeat: state without a window array does not throw', () => {
+  assert.doesNotThrow(() => detectRepeatedCall(call('x'), {}))
+  assert.equal(detectRepeatedCall(call('x'), { window: 'oops', level: 0 }).nudge, null)
+})

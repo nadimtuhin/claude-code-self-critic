@@ -14,3 +14,11 @@ test('load missing -> default; save then load round-trips', () => {
   saveState(dir, 's1', { episode: { count: 2 }, stuck: { window: ['a'], level: 1 } })
   assert.deepEqual(loadState(dir, 's1'), { episode: { count: 2 }, stuck: { window: ['a'], level: 1 } })
 })
+
+test('load: malformed fields in a state file fall back to defaults', () => {
+  rmSync(dir, { recursive: true, force: true })
+  saveState(dir, 'bad', { episode: null, stuck: {} })
+  assert.deepEqual(loadState(dir, 'bad'), { episode: { count: 0 }, stuck: { window: [], level: 0 } })
+  saveState(dir, 'bad2', ['not', 'an', 'object'])
+  assert.deepEqual(loadState(dir, 'bad2'), { episode: { count: 0 }, stuck: { window: [], level: 0 } })
+})
