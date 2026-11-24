@@ -45,17 +45,20 @@ c_bold()   { echo -e "${BOLD}$*${NC}"; }
 
 # If piped (no repo around us), clone to temp and re-point ROOT.
 ensure_repo() {
-  if [ -d "$SRC" ]; then
+  # Check for our own entry point, not just any src/ dir: when piped from curl,
+  # $0 is "bash" so ROOT is the caller's cwd, which may be an unrelated project.
+  if [ -f "$SRC/stop-hook.mjs" ] && [ -f "$SRC/pretool-hook.mjs" ]; then
     return  # local mode — already in repo
   fi
   command -v git >/dev/null 2>&1 || die "git is required for remote install."
-  local tmp_dir
-  tmp_dir=$(mktemp -d "/tmp/self-critic-install-XXXXXX")
+  # Global (not local): the EXIT trap runs after this function returns, and under
+  # `set -u` an out-of-scope local makes the trap fail and the script exit 1.
+  CLONE_DIR=$(mktemp -d "/tmp/self-critic-install-XXXXXX")
+  trap 'rm -rf "$CLONE_DIR"' EXIT
   echo "Cloning repo..."
-  git clone --depth 1 "$REPO_URL" "$tmp_dir" >/dev/null 2>&1
-  ROOT="$tmp_dir"
+  git clone --depth 1 "$REPO_URL" "$CLONE_DIR" >/dev/null 2>&1 || die "git clone of $REPO_URL failed."
+  ROOT="$CLONE_DIR"
   SRC="$ROOT/src"
-  trap 'rm -rf "$tmp_dir"' EXIT
 }
 
 die() { c_red "error: $*"; echo; exit 1; }
