@@ -75,7 +75,7 @@ src/
   stop-hook.mjs     # Stop hook entry point (thin wiring)
   pretool-hook.mjs  # PreToolUse hook entry point (thin wiring)
 test/
-  *.test.mjs        # 40 tests, zero dependencies
+  *.test.mjs        # Tests, zero dependencies
   fixtures/         # Real transcript fixtures
 ```
 
@@ -104,7 +104,7 @@ No config file. Tuned defaults baked in:
 node --test
 ```
 
-40 tests across fact-gate, evidence, critic-core, stuck-core, and state. Zero dependencies.
+Tests across fact-gate, evidence, critic-core, stuck-core, state, and end-to-end hook/installer checks. Zero dependencies.
 
 ## Fail-Open Guarantee
 
